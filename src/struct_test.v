@@ -53,7 +53,7 @@ fn test_type_proper_deref() {
 fn test_type_absolute_to_absolute_no_base() {
 	what := parse('https://vlang.io/abc/def')!
 	prob := new(what, 0, '', '', none)
-	assert prob.to_absolute(none).str() == what.str()
+	assert prob.type.to_absolute(none).str() == what.str()
 }
 
 fn test_type_absolute_to_absolute_rewrite_base() {
@@ -68,7 +68,7 @@ fn test_type_absolute_to_absolute_rewrite_base() {
 	expected.raw_query = what.raw_query
 	expected.fragment = what.fragment
 
-	assert prob.to_absolute(rewrite).str() == expected.str()
+	assert prob.type.to_absolute(rewrite).str() == expected.str()
 }
 
 fn test_type_relative_to_absolute() {
@@ -83,7 +83,7 @@ fn test_type_relative_to_absolute() {
 	expected.raw_query = what.raw_query
 	expected.fragment = what.fragment
 
-	assert prob.to_absolute(rewrite).str() == 'https://vlang.io/abc/def'
+	assert prob.type.to_absolute(rewrite).str() == 'https://vlang.io/abc/def'
 }
 
 fn test_type_unresolvable_tag() {
@@ -137,14 +137,14 @@ fn test_instance_proper_deref() {
 
 fn test_instance_absolute_to_absolute_no_base() {
 	what := parse('https://vlang.io/abc/def')!
-	prob := new(what, 0, '', '', none)
-	assert prob.to_absolute(none).str() == what.str()
+	prob := new(none, 0, '', '', what)
+	assert prob.instance.to_absolute(none).str() == what.str()
 }
 
 fn test_instance_absolute_to_absolute_rewrite_base() {
 	what := parse('https://vlang.io/abc/def')!
 	rewrite := parse('https:/gnalv.oi')!
-	prob := new(what, 0, '', '', none)
+	prob := new(none, 0, '', '', what)
 
 	mut expected := URL{
 		...rewrite
@@ -153,13 +153,13 @@ fn test_instance_absolute_to_absolute_rewrite_base() {
 	expected.raw_query = what.raw_query
 	expected.fragment = what.fragment
 
-	assert prob.to_absolute(rewrite).str() == expected.str()
+	assert prob.instance.to_absolute(rewrite).str() == expected.str()
 }
 
 fn test_instance_relative_to_absolute() {
 	what := parse('/abc/def')!
 	rewrite := parse('https://vlang.io')!
-	prob := new(what, 0, '', '', none)
+	prob := new(none, 0, '', '', what)
 
 	mut expected := URL{
 		...rewrite
@@ -168,7 +168,7 @@ fn test_instance_relative_to_absolute() {
 	expected.raw_query = what.raw_query
 	expected.fragment = what.fragment
 
-	assert prob.to_absolute(rewrite).str() == 'https://vlang.io/abc/def'
+	assert prob.instance.to_absolute(rewrite).str() == 'https://vlang.io/abc/def'
 }
 
 fn test_instance_unresolvable_tag() {

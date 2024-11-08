@@ -4,16 +4,33 @@ import net.urllib { URL, parse }
 import json { encode }
 import os { Result, execute }
 
+type ProblemURL = URL
+
+pub fn (url ProblemURL) to_absolute(base ?URL) ProblemURL {
+	if url.is_abs() {
+		if base == none {
+			return url
+		}
+	}
+	mut copy := URL{
+		...base
+	}
+	copy.path = url.path
+	copy.raw_query = url.raw_query
+	copy.fragment = url.fragment
+	return copy
+}
+
 struct Problem {
 mut:
 	dereferencer fn (string) Result @[required]
 pub mut:
-	type   URL    @[omitempty]
-	status int    @[omitempty]
-	title  string @[omitempty]
-	detail string @[omitempty]
-	// TODO: ?URL causes compiler bug on scheme being {0}
-	instance URL @[omitempty]
+	type   ProblemURL @[omitempty]
+	status int        @[omitempty]
+	title  string     @[omitempty]
+	detail string     @[omitempty]
+	// TODO: ?ProblemURL causes compiler bug on scheme being {0}
+	instance ProblemURL @[omitempty]
 }
 
 pub fn new(type ?URL, status int, title string, detail string, instance ?URL) Problem {
@@ -45,21 +62,6 @@ pub fn (prob Problem) to_json() (ContentType, string) {
 		detail:   prob.detail
 		instance: prob.instance.str()
 	})
-}
-
-pub fn (prob Problem) to_absolute(base ?URL) URL {
-	if prob.type.is_abs() {
-		if base == none {
-			return prob.type
-		}
-	}
-	mut copy := URL{
-		...base
-	}
-	copy.path = prob.type.path
-	copy.raw_query = prob.type.raw_query
-	copy.fragment = prob.type.fragment
-	return copy
 }
 
 fn (prob Problem) visit_allowed(scheme string) bool {
