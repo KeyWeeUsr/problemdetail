@@ -8,7 +8,8 @@ struct Problem {
 mut:
 	dereferencer fn (string) Result @[required]
 pub mut:
-	type URL @[omitempty]
+	type   URL @[omitempty]
+	status int @[omitempty]
 }
 
 pub fn new(type ?URL) Problem {
@@ -21,7 +22,8 @@ pub fn new(type ?URL) Problem {
 }
 
 struct ProblemJson {
-	type string @[omitempty]
+	type   string @[omitempty]
+	status int    @[omitempty]
 }
 
 pub fn (prob Problem) to_json() (ContentType, string) {

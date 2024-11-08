@@ -92,7 +92,7 @@ fn test_type_unresolvable_tag() {
 	assert new(what).type.str() == raw
 }
 
-fn test_type_omit() {
+fn test_omit() {
 	prob := Problem{
 		dereferencer: fn (_ string) Result {
 			return Result{}
