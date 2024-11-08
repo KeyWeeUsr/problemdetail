@@ -19,3 +19,9 @@ fn test_type_empty() {
 	assert ctype == type_json
 	assert text == '{"type":"about:blank"}'
 }
+
+fn test_status_ok() {
+	status := 200
+	_, out := new(none, status).to_json()
+	assert out == '{"type":"about:blank","status":${status}}'
+}

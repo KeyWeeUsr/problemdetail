@@ -29,7 +29,8 @@ struct ProblemJson {
 
 pub fn (prob Problem) to_json() (ContentType, string) {
 	return type_json, encode(ProblemJson{
-		type: prob.type.str()
+		type:   prob.type.str()
+		status: prob.status
 	})
 }
 
