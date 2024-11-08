@@ -1,7 +1,6 @@
 module problemdetail
 
 import os { Result }
-import net.urllib
 
 pub fn (prob Problem) visit_type() !Result {
 	dest := prob.type
