@@ -8,29 +8,33 @@ struct Problem {
 mut:
 	dereferencer fn (string) Result @[required]
 pub mut:
-	type   URL @[omitempty]
-	status int @[omitempty]
+	type   URL    @[omitempty]
+	status int    @[omitempty]
+	title  string @[omitempty]
 }
 
-pub fn new(type ?URL, status int) Problem {
+pub fn new(type ?URL, status int, title string) Problem {
 	default_url := parse('about:blank') or { panic(err) }
 
 	return Problem{
 		dereferencer: execute
 		type:         type or { default_url }
 		status:       status
+		title:        title
 	}
 }
 
 struct ProblemJson {
 	type   string @[omitempty]
 	status int    @[omitempty]
+	title  string @[omitempty]
 }
 
 pub fn (prob Problem) to_json() (ContentType, string) {
 	return type_json, encode(ProblemJson{
 		type:   prob.type.str()
 		status: prob.status
+		title:  prob.title
 	})
 }
 
