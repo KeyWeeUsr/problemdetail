@@ -6,5 +6,5 @@ pub struct DereferenceError {
 }
 
 fn (err DereferenceError) msg() string {
-	return 'Cannot dereference non-http/https types (${err.url}).'
+	return 'Cannot dereference non-http/https URLs (${err.url}).'
 }
