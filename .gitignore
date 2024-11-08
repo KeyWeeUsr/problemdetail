@@ -4,3 +4,5 @@
 *#
 *.#
 *.swp
+examples/examples
+problemdetail.so
