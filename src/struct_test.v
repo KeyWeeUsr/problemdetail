@@ -1,31 +1,31 @@
 module problemdetail
 
-import net.urllib
+import net.urllib { URL, parse }
 import os { Result }
 
 fn test_type_empty() {
 	prob := new(none)
 	assert prob.type.scheme == 'about'
 	assert prob.type.opaque == 'blank'
-	assert prob.type == urllib.parse('about:blank')!
+	assert prob.type == parse('about:blank')!
 }
 
 fn test_type_specified() {
-	prob := new(urllib.URL{})
+	prob := new(URL{})
 	assert prob.type.scheme != 'about'
 	assert prob.type.opaque != 'blank'
-	assert prob.type == urllib.URL{}
+	assert prob.type == URL{}
 }
 
 fn test_type_specified_sane() {
-	what := urllib.parse('https://vlang.io')!
+	what := parse('https://vlang.io')!
 	prob := new(what)
 	assert prob.type.scheme != 'about'
 	assert prob.type.opaque != 'blank'
 	assert prob.type == what
 	// Java-esque URL != URL problem?
-	assert prob.type != urllib.parse('https://vlang.io')!
-	assert prob.type.debug() == urllib.parse('https://vlang.io')!.debug()
+	assert prob.type != parse('https://vlang.io')!
+	assert prob.type.debug() == parse('https://vlang.io')!.debug()
 }
 
 fn test_type_empty_deref() {
@@ -42,10 +42,46 @@ fn mock_dereferencer(cmd string) Result {
 }
 
 fn test_type_proper_deref() {
-	mut prob := new(urllib.parse('https://vlang.io')!)
+	mut prob := new(parse('https://vlang.io')!)
 	prob.dereferencer = mock_dereferencer
 	mut deref_err := IError(none)
 	out := prob.dereference()!
 	assert deref_err is none
 	assert out.output == 'xdg-open ${prob.type.str()}'
+}
+
+fn test_type_absolute_to_absolute_no_base() {
+	what := parse('https://vlang.io/abc/def')!
+	prob := new(what)
+	assert prob.to_absolute(none).str() == what.str()
+}
+
+fn test_type_absolute_to_absolute_rewrite_base() {
+	what := parse('https://vlang.io/abc/def')!
+	rewrite := parse('https:/gnalv.oi')!
+	prob := new(what)
+
+	mut expected := URL{
+		...rewrite
+	}
+	expected.path = what.path
+	expected.raw_query = what.raw_query
+	expected.fragment = what.fragment
+
+	assert prob.to_absolute(rewrite).str() == expected.str()
+}
+
+fn test_type_relative_to_absolute() {
+	what := parse('/abc/def')!
+	rewrite := parse('https://vlang.io')!
+	prob := new(what)
+
+	mut expected := URL{
+		...rewrite
+	}
+	expected.path = what.path
+	expected.raw_query = what.raw_query
+	expected.fragment = what.fragment
+
+	assert prob.to_absolute(rewrite).str() == 'https://vlang.io/abc/def'
 }
