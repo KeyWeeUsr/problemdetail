@@ -12,12 +12,13 @@ pub mut:
 	status int @[omitempty]
 }
 
-pub fn new(type ?URL) Problem {
+pub fn new(type ?URL, status int) Problem {
 	default_url := parse('about:blank') or { panic(err) }
 
 	return Problem{
 		dereferencer: execute
 		type:         type or { default_url }
+		status:       status
 	}
 }
 

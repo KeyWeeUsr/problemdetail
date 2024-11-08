@@ -13,7 +13,7 @@ fn test_omit() {
 }
 
 fn test_type_empty() {
-	prob := new(none)
+	prob := new(none, 0)
 	assert prob.type == urllib.parse('about:blank')!
 	ctype, text := prob.to_json()
 	assert ctype == type_json

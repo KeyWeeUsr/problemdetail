@@ -4,14 +4,14 @@ import net.urllib { URL, parse }
 import os { Result }
 
 fn test_type_empty() {
-	prob := new(none)
+	prob := new(none, 0)
 	assert prob.type.scheme == 'about'
 	assert prob.type.opaque == 'blank'
 	assert prob.type == parse('about:blank')!
 }
 
 fn test_type_specified() {
-	prob := new(URL{})
+	prob := new(URL{}, 0)
 	assert prob.type.scheme != 'about'
 	assert prob.type.opaque != 'blank'
 	assert prob.type == URL{}
@@ -19,7 +19,7 @@ fn test_type_specified() {
 
 fn test_type_specified_sane() {
 	what := parse('https://vlang.io')!
-	prob := new(what)
+	prob := new(what, 0)
 	assert prob.type.scheme != 'about'
 	assert prob.type.opaque != 'blank'
 	assert prob.type == what
@@ -30,7 +30,7 @@ fn test_type_specified_sane() {
 
 fn test_type_empty_deref() {
 	mut deref_err := IError(none)
-	prob := new(none)
+	prob := new(none, 0)
 	prob.dereference() or { deref_err = err }
 	assert deref_err !is none
 }
@@ -42,7 +42,7 @@ fn mock_dereferencer(cmd string) Result {
 }
 
 fn test_type_proper_deref() {
-	mut prob := new(parse('https://vlang.io')!)
+	mut prob := new(parse('https://vlang.io')!, 0)
 	prob.dereferencer = mock_dereferencer
 	mut deref_err := IError(none)
 	out := prob.dereference()!
@@ -52,14 +52,14 @@ fn test_type_proper_deref() {
 
 fn test_type_absolute_to_absolute_no_base() {
 	what := parse('https://vlang.io/abc/def')!
-	prob := new(what)
+	prob := new(what, 0)
 	assert prob.to_absolute(none).str() == what.str()
 }
 
 fn test_type_absolute_to_absolute_rewrite_base() {
 	what := parse('https://vlang.io/abc/def')!
 	rewrite := parse('https:/gnalv.oi')!
-	prob := new(what)
+	prob := new(what, 0)
 
 	mut expected := URL{
 		...rewrite
@@ -74,7 +74,7 @@ fn test_type_absolute_to_absolute_rewrite_base() {
 fn test_type_relative_to_absolute() {
 	what := parse('/abc/def')!
 	rewrite := parse('https://vlang.io')!
-	prob := new(what)
+	prob := new(what, 0)
 
 	mut expected := URL{
 		...rewrite
@@ -89,5 +89,5 @@ fn test_type_relative_to_absolute() {
 fn test_type_unresolvable_tag() {
 	raw := 'tag:example@example.org,2021-09-17:OutOfLuck'
 	what := parse(raw)!
-	assert new(what).type.str() == raw
+	assert new(what, 0).type.str() == raw
 }
