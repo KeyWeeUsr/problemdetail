@@ -11,9 +11,10 @@ pub mut:
 	type   URL    @[omitempty]
 	status int    @[omitempty]
 	title  string @[omitempty]
+	detail string @[omitempty]
 }
 
-pub fn new(type ?URL, status int, title string) Problem {
+pub fn new(type ?URL, status int, title string, detail string) Problem {
 	default_url := parse('about:blank') or { panic(err) }
 
 	return Problem{
@@ -21,6 +22,7 @@ pub fn new(type ?URL, status int, title string) Problem {
 		type:         type or { default_url }
 		status:       status
 		title:        title
+		detail:       detail
 	}
 }
 
@@ -28,6 +30,7 @@ struct ProblemJson {
 	type   string @[omitempty]
 	status int    @[omitempty]
 	title  string @[omitempty]
+	detail string @[omitempty]
 }
 
 pub fn (prob Problem) to_json() (ContentType, string) {
@@ -35,6 +38,7 @@ pub fn (prob Problem) to_json() (ContentType, string) {
 		type:   prob.type.str()
 		status: prob.status
 		title:  prob.title
+		detail: prob.detail
 	})
 }
 
