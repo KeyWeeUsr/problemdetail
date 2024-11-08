@@ -1,18 +1,18 @@
 module problemdetail
 
-import net.urllib { URL }
-import json
+import net.urllib { URL, parse }
+import json { encode }
 import os { Result, execute }
 
 struct Problem {
 mut:
 	dereferencer fn (string) Result @[required]
 pub mut:
-	type URL
+	type URL @[omitempty]
 }
 
 pub fn new(type ?URL) Problem {
-	default_url := urllib.parse('about:blank') or { panic(err) }
+	default_url := parse('about:blank') or { panic(err) }
 
 	return Problem{
 		dereferencer: execute
@@ -21,11 +21,11 @@ pub fn new(type ?URL) Problem {
 }
 
 struct ProblemJson {
-	type string
+	type string @[omitempty]
 }
 
 pub fn (prob Problem) to_json() (ContentType, string) {
-	return type_json, json.encode(ProblemJson{
+	return type_json, encode(ProblemJson{
 		type: prob.type.str()
 	})
 }

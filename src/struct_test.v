@@ -91,3 +91,14 @@ fn test_type_unresolvable_tag() {
 	what := parse(raw)!
 	assert new(what).type.str() == raw
 }
+
+fn test_type_omit() {
+	prob := Problem{
+		dereferencer: fn (_ string) Result {
+			return Result{}
+		}
+	}
+	println('what: ${prob}')
+	_, out := prob.to_json()
+	assert out == '{}'
+}
