@@ -85,3 +85,9 @@ fn test_type_relative_to_absolute() {
 
 	assert prob.to_absolute(rewrite).str() == 'https://vlang.io/abc/def'
 }
+
+fn test_type_unresolvable_tag() {
+	raw := 'tag:example@example.org,2021-09-17:OutOfLuck'
+	what := parse(raw)!
+	assert new(what).type.str() == raw
+}
