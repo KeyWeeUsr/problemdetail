@@ -47,7 +47,13 @@ fn test_type_proper_deref() {
 	mut deref_err := IError(none)
 	out := prob.visit_type()!
 	assert deref_err is none
-	assert out.output == 'xdg-open ${prob.type.str()}'
+	$if linux {
+		assert out.output == 'xdg-open ${prob.type.str()}'
+	} $else $if macos {
+		assert out.output == 'open ${prob.type.str()}'
+	} $else {
+		assert out.output == 'start ${prob.type.str()}'
+	}
 }
 
 fn test_type_absolute_to_absolute_no_base() {
@@ -132,7 +138,13 @@ fn test_instance_proper_deref() {
 	assert deref_err is none
 	dest := prob.instance.str()
 	assert dest != ''
-	assert out.output == 'xdg-open ${dest}'
+	$if linux {
+		assert out.output == 'xdg-open ${dest}'
+	} $else $if macos {
+		assert out.output == 'open ${dest}'
+	} $else {
+		assert out.output == 'start ${dest}'
+	}
 }
 
 fn test_instance_absolute_to_absolute_no_base() {
