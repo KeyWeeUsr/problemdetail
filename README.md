@@ -1,8 +1,8 @@
+# Problem Detail
+[![VPM][vpm-badge]][vpm-link]
 [![Buy me a coffee][bmc-badge]][bmc-link]
 [![Liberapay][lp-badge]][lp-link]
 [![PayPal][ppl-badge]][ppl-link]
-
-# problemdetail
 
 This is a simple implementation of Problem Details for HTTP APIs RFC providing
 a simple struct `Problem` with resolvable members and serialization to JSON.
@@ -11,11 +11,11 @@ Please check `examples` folder for a sample or simply run `make run-examples`.
 
 ## How to
 
-VPM package upload is planned but currently blocked by
-[`vlang/vpm#126`](https://github.com/vlang/vpm/issues/126). In the meantime you
-can use:
+    v install KeyWeeUsr.problemdetail
 
-    v install --git https://github.com/keyweeusr/problemdetail
+or install it from source
+
+    v install --git https://github.com/KeyWeeUsr/problemdetail
 
 or clone and either `make local-install` or build manually within your project.
 Then simply:
@@ -31,6 +31,8 @@ problemdetail.new(
 )
 ```
 
+[vpm-badge]: https://img.shields.io/badge/vpm-1.0.0-027d9c?logo=v&logoColor=white&logoWidth=10
+[vpm-link]: https://vpm.vlang.io/packages/KeyWeeUsr.problemdetail
 [bmc-badge]: https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee
 [bmc-link]: https://www.buymeacoffee.com/peterbadida
 [ppl-badge]: https://img.shields.io/badge/-paypal-grey?logo=paypal
