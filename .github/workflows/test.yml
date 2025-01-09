@@ -14,7 +14,7 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-          # - macOS-latest
+          - macOS-latest
 
     steps:
       - name: Set up V (Windows)
@@ -52,7 +52,7 @@ jobs:
           v -shared .
 
       - name: Build the project
-        if: matrix.os != 'windows-latest'
+        if: matrix.os == 'ubuntu-latest'
         run: |
           make
           test -f problemdetail.so && rm problemdetail.so
