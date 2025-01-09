@@ -17,19 +17,42 @@ jobs:
           # - macOS-latest
 
     steps:
+      - name: Set up V (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          git clone --depth=1 https://github.com/vlang/v /tmp/v
+          cd /tmp/v
+          ./make.bat
+
       - name: Set up V
+        if: matrix.os != 'windows-latest'
         run: |
           git clone --depth=1 https://github.com/vlang/v /tmp/v
           cd /tmp/v
           make
-          echo "PATH=${PWD}:${PATH}" >> "$GITHUB_ENV"
+
+      - name: Set up PATH (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "D:/tmp/v" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Set up PATH
+        if: matrix.os != 'windows-latest'
+        run: |
+          echo "PATH=/tmp/v:${PATH}" >> "$GITHUB_ENV"
 
       - name: Check out the source code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Build the project (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          v -shared .
+
       - name: Build the project
+        if: matrix.os != 'windows-latest'
         run: |
           make
           test -f problemdetail.so && rm problemdetail.so
