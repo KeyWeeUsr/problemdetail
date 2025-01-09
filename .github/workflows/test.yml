@@ -29,6 +29,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Test the project
+      - name: Build the project
         run: |
           make
+          test -f problemdetail.so && rm problemdetail.so
+
+      - name: Test the project
+        run: |
+          v test .
