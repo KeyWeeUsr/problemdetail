@@ -1,5 +1,6 @@
 # Problem Detail
 [![VPM][vpm-badge]][vpm-link]
+[![CI][ci-badge]][ci-workflow]
 [![Buy me a coffee][bmc-badge]][bmc-link]
 [![Liberapay][lp-badge]][lp-link]
 [![PayPal][ppl-badge]][ppl-link]
@@ -33,6 +34,8 @@ problemdetail.new(
 
 [vpm-badge]: https://img.shields.io/badge/vpm-1.0.0-027d9c?logo=v&logoColor=white&logoWidth=10
 [vpm-link]: https://vpm.vlang.io/packages/KeyWeeUsr.problemdetail
+[ci-badge]: https://github.com/KeyWeeUsr/problemdetail/actions/workflows/test.yml/badge.svg
+[ci-workflow]: https://github.com/KeyWeeUsr/problemdetail/actions/workflows/test.yml
 [bmc-badge]: https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee
 [bmc-link]: https://www.buymeacoffee.com/peterbadida
 [ppl-badge]: https://img.shields.io/badge/-paypal-grey?logo=paypal
