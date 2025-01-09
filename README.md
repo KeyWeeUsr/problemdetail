@@ -32,7 +32,7 @@ problemdetail.new(
 )
 ```
 
-[vpm-badge]: https://img.shields.io/badge/vpm-1.0.0-027d9c?logo=v&logoColor=white&logoWidth=10
+[vpm-badge]: https://img.shields.io/badge/vpm-1.0.1-027d9c?logo=v&logoColor=white&logoWidth=10
 [vpm-link]: https://vpm.vlang.io/packages/KeyWeeUsr.problemdetail
 [ci-badge]: https://github.com/KeyWeeUsr/problemdetail/actions/workflows/test.yml/badge.svg
 [ci-workflow]: https://github.com/KeyWeeUsr/problemdetail/actions/workflows/test.yml
